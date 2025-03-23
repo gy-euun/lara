@@ -64,3 +64,71 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# My SaaS Application
+
+## 프로젝트 소개
+이 프로젝트는 Laravel 12를 기반으로 한 위험성 평가 관리 시스템입니다. 사용자 인증, 위험성 평가 생성 및 관리 기능을 제공합니다.
+
+## 기술 스택
+- **백엔드**: Laravel 12
+- **프론트엔드**: 
+  - Tailwind CSS
+  - Alpine.js
+  - Vite
+- **데이터베이스**: MySQL
+- **인증**: Laravel Breeze
+
+## 주요 기능
+- 사용자 인증 및 권한 관리
+  - 로그인/회원가입
+  - 로그아웃
+- 위험성 평가 관리
+  - 평가 생성
+  - 평가 목록 조회
+  - 평가 상세 보기
+  - 평가 수정/삭제
+
+## 설치 방법
+1. 저장소 클론
+```bash
+git clone [repository-url]
+cd [project-directory]
+```
+
+2. 의존성 설치
+```bash
+composer install
+npm install
+```
+
+3. 환경 설정
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. 데이터베이스 설정
+- `.env` 파일에서 데이터베이스 설정을 수정합니다.
+- 마이그레이션 및 시딩을 실행합니다:
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+5. 개발 서버 실행
+```bash
+# 터미널 1: Laravel 서버
+php artisan serve
+
+# 터미널 2: Vite 개발 서버
+npm run dev
+```
+
+## 개발 가이드
+- 코드 스타일: Laravel Pint
+- 테스트: PHPUnit
+- 프론트엔드 빌드: Vite
+
+## 라이선스
+이 프로젝트는 MIT 라이선스 하에 있습니다.

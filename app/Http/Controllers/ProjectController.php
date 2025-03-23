@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\RiskAssessment;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -69,7 +70,9 @@ class ProjectController extends Controller
         
         // 프로젝트 통계 데이터
         $stats = [
-            'risk_assessments_count' => $project->riskAssessments()->count(),
+            'risk_assessments_count' => RiskAssessment::where('project_name', $project->name)
+                ->where('user_id', $project->user_id)
+                ->count(),
             'workers_count' => $project->workers()->count(),
             'documents_count' => $project->documents()->count(),
         ];

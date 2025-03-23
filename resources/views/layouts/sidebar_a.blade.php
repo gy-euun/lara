@@ -15,7 +15,8 @@
         </li>
 
         <li>
-            <a href="/community" class="hover:text-blue-500">
+            <a href="{{ route('community.index') }}"
+               class="{{ request()->is('community*') ? 'text-blue-600 font-bold' : '' }}">
                 🗨️ 커뮤니티
             </a>
         </li>

@@ -8,6 +8,8 @@ use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +49,11 @@ Route::middleware(['auth'])->group(function () {
 
     // 챗봇 관련 라우트
     Route::get('/projects/{project}/chatbot', [ChatbotController::class, 'index'])->name('projects.chatbot.index');
+
+    // 위험성평가 라우트
+    Route::resource('risk-assessments', RiskAssessmentController::class);
+    Route::get('risk-assessments/{assessment}/pdf', [RiskAssessmentController::class, 'generatePdf'])
+        ->name('risk-assessments.pdf');
 });
 
 // 관리자 라우트
@@ -60,6 +67,34 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// 커뮤니티 라우트
+Route::middleware(['auth'])->prefix('community')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('community.posts.index');
+    })->name('community.index');
+
+    // 게시글 기본 CRUD 라우트
+    Route::resource('posts', PostController::class)->names('community.posts');
+    
+    // 게시글 필터링 라우트
+    Route::get('posts/filter/{filter}', [PostController::class, 'index'])
+        ->name('community.posts.filter');
+    
+    // 게시글 좋아요 토글
+    Route::post('posts/{post}/like', [PostController::class, 'toggleLike'])
+        ->name('community.posts.like');
+    
+    // 댓글 관련 라우트
+    Route::post('posts/{post}/comments', [CommentController::class, 'store'])
+        ->name('community.comments.store');
+    Route::put('comments/{comment}', [CommentController::class, 'update'])
+        ->name('community.comments.update');
+    Route::delete('comments/{comment}', [CommentController::class, 'destroy'])
+        ->name('community.comments.destroy');
+    Route::post('comments/{comment}/like', [CommentController::class, 'toggleLike'])
+        ->name('community.comments.like');
 });
 
 require __DIR__.'/auth.php';

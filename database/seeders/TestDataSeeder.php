@@ -2,26 +2,27 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Project;
 use App\Models\RiskAssessment;
 use App\Models\Worker;
 use App\Models\Document;
-use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class TestDataSeeder extends Seeder
 {
     public function run(): void
     {
-        // 테스트 유저 생성 (이미 있다면 건너뜀)
-        $user = User::where('email', 'test@example.com')->first();
-        if (!$user) {
-            $user = User::create([
+        // 테스트 사용자 생성 또는 조회
+        $user = User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
                 'name' => 'Test User',
-                'email' => 'test@example.com',
-                'password' => bcrypt('password'),
-            ]);
-        }
+                'password' => Hash::make('password'),
+                'is_admin' => true,
+            ]
+        );
 
         // 프로젝트 생성
         $project = Project::create([
@@ -33,10 +34,12 @@ class TestDataSeeder extends Seeder
         // 위험성 평가 데이터 생성
         for ($i = 1; $i <= 3; $i++) {
             RiskAssessment::create([
-                'title' => "위험성 평가 #$i",
-                'description' => "위험성 평가 설명 #$i",
-                'risk_level' => ['low', 'medium', 'high'][rand(0, 2)],
-                'project_id' => $project->id,
+                'user_id' => $user->id,
+                'industry_id' => 1,
+                'project_name' => "테스트 프로젝트 {$i}",
+                'assessment_no' => "RA-" . date('Ymd') . "-" . str_pad($i, 3, '0', STR_PAD_LEFT),
+                'assessment_date' => now(),
+                'status' => 'draft'
             ]);
         }
 

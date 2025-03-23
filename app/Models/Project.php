@@ -34,9 +34,10 @@ class Project extends Model
     /**
      * Get the risk assessments for the project.
      */
-    public function riskAssessments(): HasMany
+    public function riskAssessments()
     {
-        return $this->hasMany(RiskAssessment::class);
+        return RiskAssessment::where('project_name', $this->name)
+            ->where('user_id', $this->user_id);
     }
 
     public function workers(): HasMany
