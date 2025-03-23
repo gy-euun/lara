@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // 관리자 라우트
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+Route::middleware(['web', 'auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
     Route::get('/projects', [AdminController::class, 'projects'])->name('admin.projects');

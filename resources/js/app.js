@@ -2,6 +2,8 @@ import './bootstrap';
 
 import Alpine from 'alpinejs';
 
-window.Alpine = Alpine;
-
-Alpine.start();
+// Alpine.js 초기화
+document.addEventListener('DOMContentLoaded', () => {
+    window.Alpine = Alpine;
+    Alpine.start();
+});

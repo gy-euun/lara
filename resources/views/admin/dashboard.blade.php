@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="space-y-6">
+<div x-data="{ showStats: true }" x-cloak>
     <h1 class="text-2xl font-bold">관리자 대시보드</h1>
 
     <!-- 통계 카드 -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div x-show="showStats" class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white rounded-lg shadow p-6">
             <h2 class="text-lg font-semibold mb-4">사용자 통계</h2>
             <p class="text-3xl font-bold text-blue-600">{{ $stats['total_users'] }}</p>
@@ -44,7 +44,7 @@
     </div>
 
     <!-- 시스템 상태 -->
-    <div class="bg-white rounded-lg shadow p-6">
+    <div x-show="showStats" class="bg-white rounded-lg shadow p-6 mt-6">
         <h2 class="text-lg font-semibold mb-4">시스템 상태</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
@@ -66,4 +66,10 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection
+
+@push('styles')
+<style>
+    [x-cloak] { display: none !important; }
+</style>
+@endpush 
